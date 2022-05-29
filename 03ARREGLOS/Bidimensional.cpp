@@ -1,0 +1,19 @@
+#include <iostream>
+
+using namespace std;
+
+int main(){
+	
+	int notas[2][10]={
+	    {1,2,3,4,5,6,7,8,9,10},
+	    {11,12,13,14,15,16,17,18,19,20}
+	};
+	
+	cout<<"Ejemplo de coordenadas: "<<notas[0][2];
+	
+	return 0;
+	
+	//investigar cuales son los elementos y caracteristicas de una lista en estructura de datos en c++, empezaremos con lista 
+	
+}
+
