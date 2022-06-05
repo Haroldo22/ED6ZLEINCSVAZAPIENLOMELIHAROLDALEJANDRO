@@ -50,6 +50,7 @@ struct Nodo{
 
 //definir los metodos
 void insertarLista(Nodo *&, int);
+void imprimirLista(Nodo *&, int &);
 
 int main(){
 	//declarar mi variable en una lista
@@ -68,22 +69,30 @@ int main(){
 		cin>>op;
 		switch(op){
 			case 1: 
-			cout<<" Indica el numero de valores a introducir ";
+			cout<<" Indica el numero de valores a introducir "<<endl;
 			cin>>valores;
 			while(i<valores){
-				cout<<"Valor["<<i<<"]";
+				cout<<"Valor["<<i+1<<"]"<<endl;
 				cin>>c;
 				//insertar el valor
 				insertarLista(lista, c);
 				i++;
 			}
 		   break;
-	   case 2:
-		     cout<<"Mostrar los valores de la lista ";
-		     cout<<"imprimir valores";
-		     break;
-		default:
-			cout<<"Gracias por mimir aqui uwu";
+		   case 2:
+			     cout<<"Mostrar los valores de la lista: "<<endl;
+			     while(lista != NULL){
+			     	imprimirLista(lista, c);
+			     	if(lista != NULL){
+			     		cout<<c<<", ";
+					 }else{
+					 	cout<<c<<". "<<endl;
+					 }
+			     	
+				 }
+			     break;
+			default:
+				cout<<"Gracias por mimir aqui uwu";
 		}
 	}
 	return 0;
@@ -91,15 +100,23 @@ int main(){
 
 void insertarLista(Nodo *&lista, int c){
 	//crear una nueva lista
-	Nodo * inslista = new Nodo();
+	Nodo *inslista = new Nodo();
 	//debo de asignar el valor a la lista
 	inslista->valor = c;
 	
-	//necesita un auxiliar para encadenaer los valores de 
-	Nodo*aux = lista;
-	Nodo *aux2;
-	//meter los valores de forma ordenada
+	inslista->siguiente = lista;
+	
+	lista = inslista;
+	
+	cout<<"\tEL numero "<<c<<" ha sido agregado a la lista"<<endl;
 }
 
+void imprimirLista(Nodo *&lista, int &c){
+	Nodo *aux = lista;
+	c = aux->valor;
+	lista = aux->siguiente;
+	delete aux;
+	
+}
 
 
