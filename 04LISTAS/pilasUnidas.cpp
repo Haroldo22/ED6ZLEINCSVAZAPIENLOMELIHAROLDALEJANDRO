@@ -25,6 +25,8 @@ void imprimir1(pila);
 void imprimir2(pila);
 void push(pila &, int);
 void unirPilas(pila , pila );
+void eliminarPila(pila &, int);
+void moverValor(pila, pila);
 
 main(){ 
 //detectar las pilas
@@ -39,7 +41,8 @@ main(){
 		cout<<"1 Apilar"<<endl;
 	 	cout<<"2 Ver pila"<<endl;
 	   	cout<<"3 Unir"<<endl;
-	 	cout<<"4 Salir"<<endl;
+	 	cout<<"4 Eliminar pila"<<endl;
+	 	cout<<"5 Salir "<<endl;
 	 	cout<<"Ingrese una opcion"<<endl;
 	 	cin>>opc;
 	 	
@@ -66,8 +69,7 @@ main(){
 		   break;
 		
 		case 2:
-		
-		cout<<"Contenido de la pila 1"<<endl;
+			cout<<"Contenido de la pila 1"<<endl;
 			imprimir1(p1);
 			cout<<"Contenido de la pila 2"<<endl;
 			imprimir1(p2);
@@ -75,12 +77,29 @@ main(){
 		
 		case 3:
 		    cout<<"Pilas unidas"<<endl;
-		        unirPilas(p1,p2);
+		        moverValor(p1,p2);
 		           break;
+		           
+		case 4:
+			
+			cout<<"Pila eliminada"<<endl;
 		 }
-	}while(opc!=4);
-	}
+		 
+	}while(opc!=5);
+}
 	
+	void moverValor(pila p1, pila p2){
+	pila q = p1;
+	
+		p2=p2->siguiente;
+		p2=p2->siguiente;
+	
+	/*while(q->siguiente!=NULL){
+			q = q->siguiente;
+	}*/
+	q->siguiente=p2;
+}
+
 	
 	void push(pila &p, int n){
 	 pila q=new(struct nodo);
@@ -111,4 +130,11 @@ main(){
 	  p2=p2->siguiente;
 	 }
 	cout<<endl;
+	}
+	
+	void elimiarPila(pila &p, int n){
+	nodo *aux = p;
+	n = aux -> nro;
+	p = aux -> siguiente;
+	delete aux;
 	}
