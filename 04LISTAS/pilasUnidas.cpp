@@ -25,8 +25,7 @@ void imprimir1(pila);
 void imprimir2(pila);
 void push(pila &, int);
 void unirPilas(pila , pila );
-void eliminarPila(pila &, int);
-void moverValor(pila, pila);
+void eliminar(nodo *&, int&);
 
 main(){ 
 //detectar las pilas
@@ -69,35 +68,52 @@ main(){
 		   break;
 		
 		case 2:
-			cout<<"Contenido de la pila 1"<<endl;
-			imprimir1(p1);
-			cout<<"Contenido de la pila 2"<<endl;
-			imprimir1(p2);
+			if(p1->siguiente!=NULL){
+				cout<<"Contenido de la pila 1"<<endl;
+				imprimir1(p1);
+				
+			}else{
+				cout<<"Pila 1 vacia. "<<endl;
+			}
+			
+			if(p2!=NULL){
+				cout<<"Contenido de la pila 2"<<endl;
+				imprimir1(p2);
+				
+			}else{
+				cout<<"Pila 2 vacia. "<<endl;
+			}
 			break;
 		
 		case 3:
 		    cout<<"Pilas unidas"<<endl;
-		        moverValor(p1,p2);
+		        unirPilas(p1,p2);
 		           break;
 		           
 		case 4:
+			cout<<"¿Qué pila desea eliminar? 1 o 2"<<endl;
+			cin>>opc;
+			switch(opc){
+				case 1:
+					while(p1->siguiente!=NULL){
+						eliminar(p1, valor);
+					}
+					
+					cout<<"Pila eliminada"<<endl;
+					break;
+				
+				case 2:
+					while(p2->siguiente!=NULL){
+						eliminar(p2, valor);
+					}
+				
+					cout<<"Pila eliminada"<<endl;
+					break;
+			}
 			
-			cout<<"Pila eliminada"<<endl;
 		 }
 		 
 	}while(opc!=5);
-}
-	
-	void moverValor(pila p1, pila p2){
-	pila q = p1;
-	
-		p2=p2->siguiente;
-		p2=p2->siguiente;
-	
-	/*while(q->siguiente!=NULL){
-			q = q->siguiente;
-	}*/
-	q->siguiente=p2;
 }
 
 	
@@ -132,9 +148,9 @@ main(){
 	cout<<endl;
 	}
 	
-	void elimiarPila(pila &p, int n){
-	nodo *aux = p;
-	n = aux -> nro;
-	p = aux -> siguiente;
+	void eliminar(nodo *&pila, int &n){
+	nodo *aux = pila;
+	n = aux->nro;
+	pila = aux->siguiente;
 	delete aux;
-	}
+}
