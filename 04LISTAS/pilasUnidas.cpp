@@ -26,6 +26,7 @@ void imprimir2(pila);
 void push(pila &, int);
 void unirPilas(pila , pila );
 void eliminar(nodo *&, int&);
+void eliminarValor(nodo *&, int&);
 
 main(){ 
 //detectar las pilas
@@ -41,16 +42,17 @@ main(){
 	 	cout<<"2 Ver pila"<<endl;
 	   	cout<<"3 Unir"<<endl;
 	 	cout<<"4 Eliminar pila"<<endl;
-	 	cout<<"5 Salir "<<endl;
-	 	cout<<"Ingrese una opcion"<<endl;
+	 	cout<<"5 Quitar elemento"<<endl;
+	 	cout<<"6 Salir "<<endl;
+	 	cout<<"Ingrese una opcion: "<<endl;
 	 	cin>>opc;
 	 	
 	 switch(opc){
 	 	case 1:
 		 
-			cout<<"limite de la pila"<<endl; 
+			cout<<"limite de la pila: "<<endl; 
 			cin>>n;
-		    cout<<"Ingresar pila 1"<<endl;
+		    cout<<"Ingresar pila 1: "<<endl;
 		    
 			    for(i=0;i<n;i++){
 				    cout<<"valor:"<<endl;
@@ -58,18 +60,18 @@ main(){
 				    push(p1,valor);
 				    }
 		    
-		    cout<<"Ingresar pila 2"<<endl;
+		    cout<<"Ingresar pila 2: "<<endl;
 		    
 		        for(i=0;i<n;i++)
-		           {cout<<"Elemento:"<<endl;
+		           {cout<<"Elemento: "<<endl;
 		            cin>>valor;
 		      		push(p2,valor);
 		            }
 		   break;
 		
 		case 2:
-			if(p1->siguiente!=NULL){
-				cout<<"Contenido de la pila 1"<<endl;
+			if(p1!=NULL){
+				cout<<"Contenido de la pila 1: "<<endl;
 				imprimir1(p1);
 				
 			}else{
@@ -77,7 +79,7 @@ main(){
 			}
 			
 			if(p2!=NULL){
-				cout<<"Contenido de la pila 2"<<endl;
+				cout<<"Contenido de la pila 2: "<<endl;
 				imprimir1(p2);
 				
 			}else{
@@ -91,7 +93,7 @@ main(){
 		           break;
 		           
 		case 4:
-			cout<<"¿Qué pila desea eliminar? 1 o 2"<<endl;
+			cout<<"¿Qué pila desea eliminar? 1 o 2: "<<endl;
 			cin>>opc;
 			switch(opc){
 				case 1:
@@ -110,7 +112,21 @@ main(){
 					cout<<"Pila eliminada"<<endl;
 					break;
 			}
-			
+		
+			case 5:
+			cout<<"¿De qué pila desea eliminar un valor? 1 o 2:"<<endl;
+			cin>>opc;
+			switch(opc){
+				case 1:
+					eliminarValor(p1, valor);
+					cout<<"Valor eliminado"<<endl;
+					break;
+				
+				case 2:
+					eliminarValor(p2, valor);
+					cout<<"Valor eliminado"<<endl;
+					break;
+			}
 		 }
 		 
 	}while(opc!=5);
@@ -149,6 +165,13 @@ main(){
 	}
 	
 	void eliminar(nodo *&pila, int &n){
+	nodo *aux = pila;
+	n = aux->nro;
+	pila = aux->siguiente;
+	delete aux;
+}
+
+	void eliminarValor(nodo *&pila, int &n){
 	nodo *aux = pila;
 	n = aux->nro;
 	pila = aux->siguiente;
