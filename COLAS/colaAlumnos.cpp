@@ -12,7 +12,6 @@ using namespace std;
 struct ICO{
 	char nombre[30];
 	string clave;
-	
 	float calificacion;
 };
 //definir el nodo 
@@ -26,7 +25,8 @@ void menu();
 void agregarDatos(ICO &);
 void insertarDatos(Nodo *&, Nodo *&, ICO);
 bool c_vacia(Nodo *);
-//void  buscar(ICO &alumnos, char* c_clave);
+void buscar(ICO &alumnos, string c_clave);
+void guardarArchivo(Nodo *&, Nodo *&, ICO);
 
 int main(){
 	
@@ -34,8 +34,11 @@ int main(){
 	ICO alumnos;
 	Nodo *frente = NULL;
 	Nodo *fin = NULL;
-	char c_clave[20];
-	char opcion;
+	string c_clave;
+	int opcion;
+	
+	std::fstream archivo("archivo.txt");
+	archivo.open("archivo.txt", ios::out);
 	
 	do{
 		menu();
@@ -46,25 +49,29 @@ int main(){
 		Nodo *aux = frente;
 		
 		switch(opcion){
-			case '1':	
+			case 1:	
 				agregarDatos(alumnos);
 				insertarDatos(frente, fin, alumnos);
 				break;
-			case '2':
-				cout<<"\n La clave \t"<<"NOMBRE\t"<<"CALIFICACION\n";
+			case 2:
+				cout<<"\n CLAVE\t"<<"NOMBRE\t"<<"CALIFICACION\n";
 				while(aux != NULL){
-					cout<<aux->alumnos.clave<<"\t"<<aux->alumnos.nombre<<"\t"<<aux->alumnos.calificacion<<"\t"<<endl;
+					cout<<" "<<aux->alumnos.clave<<"\t"<<aux->alumnos.nombre<<"\t"<<aux->alumnos.calificacion<<"\t"<<endl;
 					aux = aux->siguiente;
 				}
 				break;
-			case '3':
+			case 3:
 				cout<<"\nIngrese la clave del alumno: \n"<<endl;
 				cin>>c_clave;
 				
 				
-				//buscar(alumnos, c_clave);
+				buscar(alumnos, c_clave);
 				break;
-			case '4':
+			case 4:
+				guardarArchivo(frente, fin, alumnos);
+				cout<<"\nArchivo guardado\n";
+				break;
+			case 5:
 				cout<<"\nAdios\n";
 				break;
 			default:
@@ -73,11 +80,11 @@ int main(){
 				
 		}
 		
-		cout<<"Presionar una tecla para continuar\n";
+		cout<<"\nPresionar una tecla para continuar\n";
 		getch();
-	
 		system("cls");
-	}while(opcion != '3');
+		
+	}while(opcion != 4);
 	
 	return 0;
 }
@@ -87,18 +94,17 @@ void menu(){
 	cout<<"\n1.- Agregar datos del alumno\n";
 	cout<<"\n2.- Mostrar datos del alumno\n";
 	cout<<"\n3.- Buscar alumno\n";
-	cout<<"\n4.- SALIR\n";
+	cout<<"\n4. Guardar archivo";
+	cout<<"\n5.- SALIR\n";
 }
 
 void agregarDatos(ICO &alumnos){
-	
-	
 	cout<<"\nIngresar nombre del alumno:\n";
 	cin.getline(alumnos.nombre, 30, '\n');
 	
 	cout<<"\nIngresar clave del alumno:\n";
 	cin>>alumnos.clave;
-	
+
 	cout<<"\nIngresar calificacion del alumno:\n";
 	cin>>alumnos.calificacion;
 	
@@ -139,11 +145,29 @@ void buscar(ICO &alumnos, string c_clave){
 	
 	//a_aux = aux;
 	
-	if(a_aux !=  c_clave){
+	while(a_aux !=  c_clave) aux = aux->siguiente;
+		
+	
+	agregarDatos(alumnos);
+}
+
+void guardarArchivo(Nodo *&frente, Nodo *&fin, ICO alumnos, fstream archivo){
+	
+	struct Nodo *aux = new struct Nodo();
+	
+	aux = frente;
+	
+	archivo.open("archivo.txt", ios::out);
+	
+	while(aux != NULL){
+		archivo<<aux->alumnos.clave<<"\t"<<aux->alumnos.nombre<<"\t"<<aux->alumnos.calificacion<<"\t"<<endl;
 		aux = aux->siguiente;
 	}
-		
-	//return a_aux;	
+
+
 }
+
+
+
 
 
