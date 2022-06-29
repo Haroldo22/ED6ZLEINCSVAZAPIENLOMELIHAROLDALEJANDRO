@@ -38,7 +38,6 @@ int main(){
 	int opcion;
 	
 	std::fstream archivo("archivo.txt");
-	archivo.open("archivo.txt", ios::out);
 	
 	do{
 		menu();
