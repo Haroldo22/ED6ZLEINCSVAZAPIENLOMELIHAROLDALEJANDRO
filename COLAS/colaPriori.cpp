@@ -10,8 +10,9 @@ using namespace std;
 //vamos con la estructura nodo
 
 struct nodo{
-	char dato;
+	string nombre;
 	int prioridad;
+	float dinero;
 	struct nodo * siguiente;
 };
 
@@ -24,18 +25,19 @@ struct cola{
 
 //funcion para crear un nodo nuevo
 
-struct nodo *crearNodo(char x, int pri){
+struct nodo *crearNodo(string x, int pri, float d){
 	//vamos a crear ese nuevo nodo
 	struct nodo *nuevoNodo = new (struct nodo);
-	nuevoNodo->dato=x;
+	nuevoNodo->nombre=x;
 	nuevoNodo->prioridad=pri;
+	nuevoNodo->dinero=d;
 	return nuevoNodo;
 }
 
 
-void encolar(struct cola &q, char valor, int priori){
+void encolar(struct cola &q, string x, int priori, float d){
 	//necesito mi auxiliar
-	struct nodo *aux = crearNodo(valor, priori);
+	struct nodo *aux = crearNodo(x, priori, d);
 	aux->siguiente=NULL;
 	
 	if(q.delante == NULL){
@@ -48,6 +50,12 @@ void encolar(struct cola &q, char valor, int priori){
 	q.atras = aux;
 }
 
+/*void depositar(struct cola &q, float d){
+	struct cola *aux = new struct cola;
+	aux->delante;
+	aux->dinero = d;
+}*/
+
 
 void mostrarCola(struct cola q){
 	//auxliar
@@ -59,7 +67,7 @@ void mostrarCola(struct cola q){
 	
 	while(aux!=NULL){
 		//hay datos
-		cout<<" "<<aux->dato<<" | "<<aux->prioridad<<endl;
+		cout<<" "<<aux->nombre<<" | "<<aux->prioridad<<" | "<<aux->dinero<<endl;
 		aux = aux->siguiente;
 	} 
 }
@@ -71,7 +79,7 @@ void ordenarPrioridad(struct cola &q){
 	
 	struct nodo *aux1, *aux2;
 	int p_aux;
-	char c_aux;
+	string c_aux;
 	
 	aux1 = q.delante;
 	
@@ -80,13 +88,13 @@ void ordenarPrioridad(struct cola &q){
 		while(aux2!=NULL){
 			if(aux1->prioridad > aux2->prioridad){
 				p_aux = aux1->prioridad;
-				c_aux = aux1->dato;
+				c_aux = aux1->nombre;
 				
 				aux1->prioridad = aux2->prioridad;
-				aux1->dato = aux2->dato;
+				aux1->nombre = aux2->nombre;
 				
 				aux2->prioridad = p_aux;
-				aux2->dato = c_aux;
+				aux2->nombre = c_aux;
 			}
 			aux2=aux2->siguiente;
 		}
@@ -94,10 +102,10 @@ void ordenarPrioridad(struct cola &q){
 	}
 }
 
-void insertar(struct cola &q, char c, int pri){
+void insertar(struct cola &q, string c, int pri, float d){
 	
 	//encolar
-	encolar(q, c, pri);
+	encolar(q, c, pri, d);
 	
 	//ordeno
 	ordenarPrioridad(q);
@@ -105,10 +113,11 @@ void insertar(struct cola &q, char c, int pri){
 }
 
 void menu(){
-	cout<<"\n Ejemplo de colas de prioridad\n";
-	cout<<"1.- Encolar\n";
-	cout<<"2.- Mostrar cola\n";
-	cout<<"3.- Salir\n";
+	cout<<"\n Fila del banco\n";
+	cout<<"	1.- Registrar cuenta\n";
+	cout<<"	2.- Mostrar cuentas registradas\n";
+	cout<<"	4.- Salir\n";
+	
 }
 
 int main(){
@@ -117,27 +126,29 @@ int main(){
 	q.delante = NULL;
 	q.atras = NULL;
 	
-	char c; //caracter del dato
+	string nombre; //caracter del dato
 	int priori; //prioridad
+	float d=0;//dinero
 	int op; //opcion
-	int x; //numero que devuelve para pop
 	
 	do{
 		menu();
 		cin>>op;
 		switch(op){
 			case 1:
-				cout<<"\n Ingrese un caracter: \n";
-				cin>>c;
-				cout<<"\n Ingrese su prioridad: \n";
+				cout<<"\n Ingrese un nombre: \n";
+				cin>>nombre;
+				cout<<"\n Ingrese prioridad de la cuenta\n	0 - Sin cuenta\n	1 Cuenta normal\n	2 - Cuenta empresarial\n	3 - Cuenta VIP\n";
 				cin>>priori;
+				cout<<"\n Ingrese el monto a depositar: \n";
+				cin>>d;
 				
-				insertar(q, c, priori);
+				insertar(q, nombre, priori, d);
 				
-				cout<<"\n Caracter: "<<c<<" encolado\n";
+				cout<<"\nCliente "<<nombre<<" ha sido registrado\n";
 				break;
 			case 2:
-				cout<<"\n Mostrar elementos de la cola: \n";
+				cout<<"\n Fila actual:\n";
 				if(q.delante!=NULL){
 					mostrarCola(q);
 				}else{
@@ -145,13 +156,13 @@ int main(){
 				}
 				break;
 			default:
-				cout<<"Ingrese una opcion valida\n";
+				cout<<" Ingrese una opcion valida\n";
 				system("pause");
 				exit(0);			
 		}
 		system("pause");
 		system("cls");
-	}while(op!=3);
+	}while(op!=4);
 	return 0;
 }
 
